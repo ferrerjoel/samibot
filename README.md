@@ -1,6 +1,6 @@
 # samibot
 
-A multipurpose bot. Needs node_modules o discord.js and a config file in order to work.
+A multipurpose bot. Needs node_modules of discord_js in order to work. Made for learning purposes.
 
 # Main features
 

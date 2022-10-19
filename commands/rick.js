@@ -15,8 +15,8 @@ module.exports = {
 
 		const connection = getVoiceConnection(interaction.guildId);
 		const player = createAudioPlayer();
-		const resource = createAudioResource('./audio/rick.ogg');
-
+		const resource = createAudioResource('./audio/rick.ogg', { inlineVolume: true });
+		resource.volume.setVolume(10);
 		try {
 
 			await entersState(voiceConnection, VoiceConnectionStatus.Ready, 5000);

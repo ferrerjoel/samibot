@@ -18,3 +18,5 @@ ffmpeg-static
 -Can ping pong
 
 -Rick roll your voice chat
+
+-Change all disconected user alias for the lyrics of the famous 1978 song! (beta)

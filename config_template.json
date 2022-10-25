@@ -1,5 +1,5 @@
 {
-	// NOTE: CHANGE THIS FILE NAME TO config.json IN ORDER TO WORK
+	NOTE: CHANGE THIS FILE NAME TO config.json IN ORDER TO WORK AND DELETE THIS LINE
     "clientId": "",
 	"guildId": "",
     "token": ""

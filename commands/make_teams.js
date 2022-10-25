@@ -6,12 +6,14 @@ module.exports = {
 		.setDescription('Make teams of your VC!')
 		.addIntegerOption(option => option.setName('teams')
 				.setDescription('Number of teams do you want to make')
-				.setRequired(true)),
+				.setRequired(true)
+				.setMinValue(2)
+				.setMaxValue(10)),
 	async execute(interaction) {
 		let userVoiceChannel = interaction.member.voice.channelId;
 		let serverMembers = interaction.guild.members.cache.map(member => member);
 
-		let teamsToCreate = interaction.options.getString('teams');
+		let teamsToCreate = interaction.options.getInteger('teams');
 
 		serverMembers = serverMembers.filter(e => e.voice.channelId == userVoiceChannel);
 		let numberOfPlayers = serverMembers.length;

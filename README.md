@@ -20,3 +20,5 @@ ffmpeg-static
 -Rick roll your voice chat
 
 -Change all disconected user alias for the lyrics of the famous 1978 song! (beta)
+
+-Create random generated teams of the people you are in VC with!

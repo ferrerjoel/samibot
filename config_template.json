@@ -1,0 +1,6 @@
+{
+	// NOTE: CHANGE THIS FILE NAME TO config.json IN ORDER TO WORK
+    "clientId": "",
+	"guildId": "",
+    "token": ""
+}

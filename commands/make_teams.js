@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -36,7 +36,22 @@ module.exports = {
 			team++;
 			
 		}
+
 		await interaction.reply({ content: printTeams(teams)});
+		console.log(printTeams(teams));
+		
+		// if (true){
+		// 	interaction.guild.channels.create({
+		// 		name: 'HOLA',
+		// 		type: 2, //GUILD_VOICE
+		// 		permissionOverwrites: [
+		// 		   {
+		// 			 id: interaction.user.id,
+		// 			 deny: [PermissionsBitField.Flags.ViewChannel],
+		// 		  },
+		// 		],
+		// 	  })
+		// }
 	},
 };
 

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField, time } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,12 +13,14 @@ module.exports = {
 			.setDescription('Do you want to make voice channels?')
 			.setRequired(false)),
 	async execute(interaction) {
+		// In recent apis the bot has 3 seconds to respond, in case the bots needs more time, the bot can say this and then edit the message
+		await interaction.reply('Making the most balanced teams you have ever seen...');
 		let userVoiceChannel = interaction.member.voice.channelId;
 		let serverMembers = interaction.guild.members.cache.map(member => member);
 
 		let teamsToCreate = interaction.options.getInteger('teams');
 		let voice = interaction.options.getBoolean('voice');
-
+		// Filter the users that are on the VC of the user that invoked the command
 		serverMembers = serverMembers.filter(e => e.voice.channelId == userVoiceChannel);
 		let numberOfPlayers = serverMembers.length;
 
@@ -41,7 +43,7 @@ module.exports = {
 			
 		}
 
-		await interaction.reply({ content: await printTeams(teams, voice, interaction)});
+		await interaction.editReply({ content: await printTeams(teams, voice, interaction)});
 		printTeams(teams);
 		
 	},
@@ -64,7 +66,7 @@ async function printTeams(teams, voice, interaction){
 }
 
 async function createChannel(interaction, name){
-	channel = await interaction.guild.channels.create({
+	let channel = await interaction.guild.channels.create({
 		name: name,
 		type: 2, //GUILD_VOICE
 		permissionOverwrites: [
@@ -74,5 +76,13 @@ async function createChannel(interaction, name){
 			},
 		],
 	})
+	// let timeout = setTimeout(function () {
+	// 	console.log(channel);
+	// 	channel.delete();
+	// }, 3000);
+	// interaction.client.on("voiceStateUpdate", (oldState, newState) => {
+	// 	clearTimeout(timeout);
+	// 	console.log("AJA");
+	// })
 	return channel;
 }

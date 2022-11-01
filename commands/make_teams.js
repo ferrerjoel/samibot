@@ -16,6 +16,11 @@ module.exports = {
 		// In recent apis the bot has 3 seconds to respond, in case the bots needs more time, the bot can say this and then edit the message
 		await interaction.reply('Making the most balanced teams you have ever seen...');
 		let userVoiceChannel = interaction.member.voice.channelId;
+		// If the user is not connected
+		if (userVoiceChannel == null){
+			interaction.reply({content: 'The user is not in a VC!', ephemeral: true});
+			return;
+		}
 		let serverMembers = interaction.guild.members.cache.map(member => member);
 
 		let teamsToCreate = interaction.options.getInteger('teams');

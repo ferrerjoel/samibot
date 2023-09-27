@@ -12,11 +12,15 @@ module.exports = {
 		await interaction.reply({ content: 'You are CRAZY! This may take a while...', ephemeral: true });
 
 		var Members = interaction.guild.members.cache.map(member => member.id); // Getting the members and mapping them by ID.
-		Members = Members.filter(e => e !== '315843334201671690'); // will return ['A', 'C', 'F']
+		Members = Members.filter(e => e !== '391982520729600002'); // will return ['A', 'C', 'F'] //315843334201671690
 
 		var newName = interaction.options.getString('name'); // We save the new name, if null, the command is going to remove all nicknames
 		Members.forEach(element => {
-			interaction.guild.members.cache.get(element).setNickname(newName);
+			try {
+				interaction.guild.members.cache.get(element).setNickname(newName);
+			} catch (e) {
+				console.error(`Handled error: ${e}`)
+			}
 		});
 
 	}

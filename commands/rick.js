@@ -21,7 +21,7 @@ module.exports = {
 
 			await entersState(voiceConnection, VoiceConnectionStatus.Ready, 5000);
 			
-			console.log("Connected");
+			console.log(`Connected to voice channel ${interaction.member.voice.channelId} on guild ${interaction.channel.guildId}`);
 			
 		} catch (error) {
 			

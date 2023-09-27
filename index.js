@@ -31,7 +31,7 @@ for (const file of commandFiles) {
 }
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log('Samibot has deployed >:)');
 });
 
 client.on('interactionCreate', interaction => {
@@ -50,7 +50,6 @@ client.on('interactionCreate', async interaction => {
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
 });
-
 
 // Login to Discord with your client's token
 client.login(token);

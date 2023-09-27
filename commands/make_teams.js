@@ -12,6 +12,7 @@ module.exports = {
 		.addBooleanOption(option => option.setName('voice')
 			.setDescription('Do you want to make voice channels?')
 			.setRequired(false)),
+		
 	async execute(interaction) {
 		// In recent apis the bot has 3 seconds to respond, in case the bots needs more time, the bot can say this and then edit the message
 		await interaction.reply('Making the most balanced teams you have ever seen...');

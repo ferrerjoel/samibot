@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionsBitField, time } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,7 +9,8 @@ module.exports = {
 			.setRequired(false))
 		.addRoleOption(option => option.setName('exclude')
 			.setDescription('What role do you want to exclude?')
-			.setRequired(false)),
+			.setRequired(false))
+		.setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers),
 	async execute(interaction) {
 		
 		let userVoiceChannel = interaction.member.voice.channelId;

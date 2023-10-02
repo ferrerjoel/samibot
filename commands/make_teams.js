@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionsBitField, time } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, time } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,8 +11,8 @@ module.exports = {
 			.setMaxValue(10))
 		.addBooleanOption(option => option.setName('voice')
 			.setDescription('Do you want to make voice channels?')
-			.setRequired(false)),
-		
+			.setRequired(false))
+		.setDefaultMemberPermissions(PermissionFlagsBits.MoveMembers),
 	async execute(interaction) {
 		// In recent apis the bot has 3 seconds to respond, in case the bots needs more time, the bot can say this and then edit the message
 		await interaction.reply('Making the most balanced teams you have ever seen...');
@@ -82,6 +82,22 @@ async function createChannel(interaction, name){
 			},
 		],
 	})
+
+	const inactivityTimeout = 10000; // 10 minutes
+	const timeout = setTimeout(() => {
+		channel.delete()
+		.then(() => {
+			console.log(`Temporary voice channel ${channel.name} has been deleted due to inactivity.`);
+		})
+		.catch(console.error);
+	}, inactivityTimeout);
+
+	// Listen for voice state updates to cancel the timer if the channel becomes active again
+	const cancelTimeout = () => {
+		clearTimeout(timeout);
+	};
+
+  	interaction.client.on('voiceStateUpdate', cancelTimeout);
 	// let timeout = setTimeout(function () {
 	// 	console.log(channel);
 	// 	channel.delete();

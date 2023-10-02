@@ -35,7 +35,7 @@ client.once('ready', () => {
 });
 
 client.on('interactionCreate', interaction => {
-	console.log(`Wa, ${interaction.user.username} used a command!`);
+	console.log(`Wa, ${interaction.user.username} with id ${interaction.user.id} used a command!`);
 });
 
 client.on('interactionCreate', async interaction => {

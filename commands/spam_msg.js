@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { generateDependencyReport, getVoiceConnection, AudioPlayerStatus, entersState, joinVoiceChannel, createAudioPlayer, createAudioResource, VoiceConnectionStatus } = require('@discordjs/voice');
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,7 +11,8 @@ module.exports = {
 			.setMaxValue(100))
 		.addStringOption(option => option.setName('message')
 			.setDescription('Message to send')
-			.setRequired(true)),
+			.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction) {
 		await interaction.reply({content: 'Deploying...', ephemeral: true});
 		for (let i = 0; i < interaction.options.getInteger('iterations'); i++){

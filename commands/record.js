@@ -1,12 +1,17 @@
 const { SlashCommandBuilder } = require("discord.js");
 const fs = require("fs");
 const prism = require("prism-media");
+const { exec } = require('child_process');
 const {
   getVoiceConnection,
   entersState,
   joinVoiceChannel,
   VoiceConnectionStatus,
+  createAudioPlayer,
+  createAudioResource,
+  StreamType,
 } = require("@discordjs/voice");
+const Silence = require('../silence');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -48,6 +53,18 @@ module.exports = {
       });
     }
 
+    const player = createAudioPlayer();
+
+    const silenceStream = new Silence();
+    const audioResource = createAudioResource(silenceStream, {
+      inputType: StreamType.Raw,
+    });
+
+    player.play(audioResource);
+
+    // Subscribe the player to the connection
+    connection.subscribe(player);
+  
     const writeStream = fs.createWriteStream('out.pcm');
     const listenStream = connection.receiver.subscribe(interaction.member);
 
@@ -59,9 +76,13 @@ module.exports = {
 
     listenStream.pipe(opusDecoder).pipe(writeStream);
 
-    listenStream.on("finish", () => {
-        exec("ffmpeg -y -f s16le -ar 48k -ac 2 -i out.pcm test.mp3")
-    })
+    listenStream.on("data", (data) => {
+      console.log(`Received audio data: ${data.length} bytes`);
+    });
+
+    // setTimeout(() => {
+    //   writeStream.end(); // End the writeStream to trigger the "finish" event
+    // }, 50000);
 
     interaction.reply({ content: `Joined! :)`, ephemeral: true });
   },

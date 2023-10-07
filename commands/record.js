@@ -1,24 +1,21 @@
 const { SlashCommandBuilder } = require("discord.js");
+const fs = require("fs");
+const prism = require("prism-media");
 const {
   getVoiceConnection,
   entersState,
   joinVoiceChannel,
-  createAudioPlayer,
-  createAudioResource,
   VoiceConnectionStatus,
-  StreamType,
-  AudioPlayerStatus,
 } = require("@discordjs/voice");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("join")
-    .setDescription("Plays an online audio")
+    .setName("record")
+    .setDescription("Records the audio on the VC!")
     .addStringOption((option) =>
       option
-        .setName("url")
-        .setDescription("URL of the file to play")
-        .setRequired(true)
+        .setName("time")
+        .setDescription("Time the bot is going to stay in seconds")
     ),
   async execute(interaction) {
     const voiceChannelId = interaction.member.voice.channelId;
@@ -50,6 +47,21 @@ module.exports = {
         ephemeral: true,
       });
     }
+
+    const writeStream = fs.createWriteStream('out.pcm');
+    const listenStream = connection.receiver.subscribe(interaction.member);
+
+    const opusDecoder = new prism.opus.Decoder({
+        frameSize: 960,
+        channels: 2,
+        rate: 48000,
+    });
+
+    listenStream.pipe(opusDecoder).pipe(writeStream);
+
+    listenStream.on("finish", () => {
+        exec("ffmpeg -y -f s16le -ar 48k -ac 2 -i out.pcm test.mp3")
+    })
 
     interaction.reply({ content: `Joined! :)`, ephemeral: true });
   },

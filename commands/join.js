@@ -3,23 +3,13 @@ const {
   getVoiceConnection,
   entersState,
   joinVoiceChannel,
-  createAudioPlayer,
-  createAudioResource,
   VoiceConnectionStatus,
-  StreamType,
-  AudioPlayerStatus,
 } = require("@discordjs/voice");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("join")
-    .setDescription("Plays an online audio")
-    .addStringOption((option) =>
-      option
-        .setName("url")
-        .setDescription("URL of the file to play")
-        .setRequired(true)
-    ),
+    .setDescription("Joins a VC"),
   async execute(interaction) {
     const voiceChannelId = interaction.member.voice.channelId;
 

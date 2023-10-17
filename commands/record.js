@@ -17,7 +17,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("record")
     .setDescription("Records the audio on the VC!")
-    .addStringOption((option) =>
+    .addIntegerOption((option) =>
       option
         .setName("time")
         .setDescription("Time the bot is going to stay in seconds")

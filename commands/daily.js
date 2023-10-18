@@ -33,13 +33,12 @@ module.exports = {
       `https://wol.jw.org/${interaction.options.getString("lang")}`
     );
 
-    await page.waitForSelector("#p50");
-    await page.waitForSelector("#p51");
-    await page.waitForSelector("#p52");
+    await page.waitForSelector(".tabContent.active .bodyTxt"); // Wait for the content section
 
-    const title = await page.$eval("#p50", (element) => element.textContent);
-    const text = await page.$eval("#p51", (element) => element.textContent);
-    const content = await page.$eval("#p52", (element) => element.textContent);
+    // Extract the content
+    const title = await page.$eval(".tabContent.active h2", (element) => element.textContent);
+    const text = await page.$eval(".tabContent.active .themeScrp", (element) => element.textContent);
+    const content = await page.$eval(".tabContent.active .bodyTxt .pGroup", (element) => element.textContent);
 
     const embed = new EmbedBuilder()
       .setColor("496DA7")

@@ -6,8 +6,8 @@ module.exports = {
 		.setDescription('Changes all the nicknames of all users, if not specified, removes them')
 		.addStringOption(option =>option.setName('name')
 				.setDescription('This is going to be the new nickname for all users')
-				.setRequired(false))
-		.setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames),
+				.setRequired(false)),
+		//.setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames),
 	async execute(interaction) {
 		await interaction.guild.members.fetch() // fetch all members and cache them
 		await interaction.reply({ content: 'You are CRAZY! This may take a while...', ephemeral: true });

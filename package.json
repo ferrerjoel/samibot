@@ -14,6 +14,7 @@
     "@discordjs/opus": "^0.8.0",
     "@discordjs/rest": "^1.1.0",
     "@discordjs/voice": "^0.16.0",
+    "avconv": "^3.1.0",
     "axios": "^1.5.1",
     "cheerio": "^1.0.0-rc.12",
     "discord.js": "^14.3.0",
@@ -21,6 +22,7 @@
     "libsodium-wrappers": "^0.7.10",
     "opusscript": "^0.0.8",
     "prism-media": "^1.3.5",
-    "puppeteer": "^21.5.0"
+    "puppeteer": "^21.6.1",
+    "ytdl-core": "^4.11.5"
   }
 }

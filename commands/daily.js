@@ -13,7 +13,11 @@ module.exports = {
         .addChoices(
           { name: "English", value: "en" },
           { name: "Spanish", value: "es" },
-          { name: "Catalan", value: "cat" }
+          { name: "Catalan", value: "cat" },
+          { name: "Portuguese (Brazil)", value: "pt" },
+          { name: "Japanese", value: "ja" },
+          { name: "German", value: "de" },
+          { name: "Basque", value: "eu" }
         )
     ),
   async execute(interaction) {

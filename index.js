@@ -51,6 +51,30 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-// Login to Discord with your client's token
+client.on('messageCreate', message => {
+
+    if (message.content.length <= 50 || message.author.bot) return;
+
+    const randomChance = Math.floor(Math.random() * 20) + 1;
+
+    if (randomChance === 1) {
+        const modifiedMessage = message.content.replace(/[aeiou]/gi, 'i');
+
+        message.reply(randomizeCase(modifiedMessage));
+    }
+});
+
+function randomizeCase(inputString) {
+    let randomizedString = '';
+    for (let i = 0; i < inputString.length; i++) {
+        if (Math.random() < 0.5) {
+            randomizedString += inputString[i].toUpperCase();
+        } else {
+            randomizedString += inputString[i].toLowerCase();
+        }
+    }
+    return randomizedString;
+}
+
 client.login(token);
 

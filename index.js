@@ -3,9 +3,8 @@ const path = require('node:path');
 // Require the necessary discord.js classes
 const { Client, Collection, GatewayIntentBits, Intents } = require('discord.js');
 const { token } = require('./config.json');
+const { chatgpt } = require('chatgpt.js');
 
-
-// Create a new client instance
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -53,27 +52,30 @@ client.on('interactionCreate', async interaction => {
 
 client.on('messageCreate', message => {
 
-    if (message.content.length <= 50 || message.author.bot) return;
+	if (message.content.length <= 50 || message.author.bot) return;
 
-    const randomChance = Math.floor(Math.random() * 20) + 1;
+	const randomChance = Math.floor(Math.random() * 20) + 1;
 
-    if (randomChance === 1) {
-        const modifiedMessage = message.content.replace(/[aeiou]/gi, 'i');
+	if (randomChance === 1) {
+		const modifiedMessage = message.content.replace(/[aeiou]/gi, 'i');
 
-        message.reply(randomizeCase(modifiedMessage));
-    }
+		message.reply(randomizeCase(modifiedMessage));
+	} else {
+
+	}
+
 });
 
 function randomizeCase(inputString) {
-    let randomizedString = '';
-    for (let i = 0; i < inputString.length; i++) {
-        if (Math.random() < 0.5) {
-            randomizedString += inputString[i].toUpperCase();
-        } else {
-            randomizedString += inputString[i].toLowerCase();
-        }
-    }
-    return randomizedString;
+	let randomizedString = '';
+	for (let i = 0; i < inputString.length; i++) {
+		if (Math.random() < 0.5) {
+			randomizedString += inputString[i].toUpperCase();
+		} else {
+			randomizedString += inputString[i].toLowerCase();
+		}
+	}
+	return randomizedString;
 }
 
 client.login(token);

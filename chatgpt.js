@@ -1,22 +1,39 @@
-const OpenAi = require("openai");
+const openai = require("openai");
 require("dotenv").config();
 
-const openai = new OpenAi({
+const openaiInstance = new openai({
 	apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function makeRequest() {
-	try {
-		const response = await openai.chat.completions.create({
-			model: "gpt-3.5-turbo",
-			messages: [{ role: "user", content: "Say this is a test" }],
-			max_tokens: 10,
-		});
+async function makeRequestLogic(userMessage) {
+  try {
+    const response = await openaiInstance.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [     {
+        "role": "system",
+        "content": "You are named Samuee, you are from seville, respond in Spanish, tipical andalusian words."
+      },
+	  { role: "user", 
+	  	content: userMessage 
+	  }
+	],
+	  max_tokens: 250,
+    });
 
-		console.log(response.data.choices[0]?.message?.content || "");
-	} catch (error) {
-		console.error('Error:', error);
-	}
+    return response['choices'][0]['message']['content'] || "";
+  } catch (error) {
+    console.error('Error:', error);
+    return "";
+  }
 }
 
-export default makeRequest();
+async function makeRequest(userMessage) {
+	try {
+	  const result = await makeRequestLogic(userMessage);
+	  return result;
+	} catch (error) {
+	  console.error('Error:', error);
+	}
+  }
+
+module.exports = makeRequest;

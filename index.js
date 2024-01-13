@@ -3,7 +3,9 @@ const path = require('node:path');
 // Require the necessary discord.js classes
 const { Client, Collection, GatewayIntentBits, Intents } = require('discord.js');
 const { token } = require('./config.json');
-const { chatgpt } = require('chatgpt.js');
+const makeRequest = require('./chatgpt');
+
+const MAX_INPUT_TOKENS_CHATGPT = 300;
 
 const client = new Client({
 	intents: [
@@ -50,20 +52,19 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-client.on('messageCreate', message => {
+client.on('messageCreate', async message => {
 
-	if (message.content.length <= 50 || message.author.bot) return;
+	if (message.author.bot) return;
 
-	const randomChance = Math.floor(Math.random() * 20) + 1;
-
-	if (randomChance === 1) {
-		const modifiedMessage = message.content.replace(/[aeiou]/gi, 'i');
-
-		message.reply(randomizeCase(modifiedMessage));
-	} else {
-
+	if (message.mentions.has(client.user.id)) {
+		if (message.content.length >= MAX_INPUT_TOKENS_CHATGPT) {
+			message.reply(`Mensaje del administrador: reduce el mensaje a ${MAX_INPUT_TOKENS_CHATGPT} caracteres, no estoy hecho de oro`);
+			return;
+		} 
+		message.reply(await makeRequest(message.content.replace(client.user.id, "")));
+	} else if (message.content.length >= 50 ) {
+		makeFun(message);
 	}
-
 });
 
 function randomizeCase(inputString) {
@@ -76,6 +77,16 @@ function randomizeCase(inputString) {
 		}
 	}
 	return randomizedString;
+}
+
+function makeFun(message) {
+	const randomChance = Math.floor(Math.random() * 20) + 1;
+
+	if (randomChance === 1) {
+		const modifiedMessage = message.content.replace(/[aeiou]/gi, 'i');
+
+		message.reply(randomizeCase(modifiedMessage));
+	} 
 }
 
 client.login(token);

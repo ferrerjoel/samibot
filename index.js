@@ -5,8 +5,6 @@ const { Client, Collection, GatewayIntentBits, Intents } = require('discord.js')
 const { token } = require('./config.json');
 const makeRequest = require('./chatgpt');
 
-const MAX_INPUT_TOKENS_CHATGPT = 300;
-
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -32,6 +30,7 @@ for (const file of commandFiles) {
 }
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
+	client.user.setActivity('Hollow Knight: Silksong');
 	console.log('Samibot has deployed >:)');
 });
 

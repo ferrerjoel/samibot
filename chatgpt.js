@@ -5,25 +5,27 @@ const openaiInstance = new openai({
 	apiKey: process.env.OPENAI_API_KEY,
 });
 
+const MAX_INPUT_TOKENS_CHATGPT = 250;
+
 async function makeRequestLogic(userMessage) {
   try {
     const response = await openaiInstance.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [     {
         "role": "system",
-        "content": "You are named Samuee, you are from seville, respond in Spanish, tipical andalusian words."
+        "content": "You are named Samuee, you are from seville, respond in Spanish, tipical andalusian words, don't swear."
       },
 	  { role: "user", 
 	  	content: userMessage 
 	  }
 	],
-	  max_tokens: 250,
+	  max_tokens: MAX_INPUT_TOKENS_CHATGPT,
     });
 
     return response['choices'][0]['message']['content'] || "";
   } catch (error) {
     console.error('Error:', error);
-    return "";
+    return "Parece que algo ha ido mal :(";
   }
 }
 

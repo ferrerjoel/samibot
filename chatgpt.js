@@ -5,9 +5,7 @@ const openaiInstance = new openai({
 	apiKey: process.env.OPENAI_API_KEY,
 });
 
-const MAX_INPUT_TOKENS_CHATGPT = 250;
-
-async function makeRequestLogic(userMessage) {
+async function makeRequestLogic(userMessage, max_tokens) {
   try {
     const response = await openaiInstance.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -19,7 +17,7 @@ async function makeRequestLogic(userMessage) {
 	  	content: userMessage 
 	  }
 	],
-	  max_tokens: MAX_INPUT_TOKENS_CHATGPT,
+	  max_tokens: max_tokens,
     });
 
     return response['choices'][0]['message']['content'] || "";

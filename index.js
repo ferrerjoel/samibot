@@ -21,6 +21,8 @@ client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
+const MAX_INPUT_TOKENS_CHATGPT = 250
+
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
@@ -60,7 +62,7 @@ client.on('messageCreate', async message => {
 			message.reply(`Mensaje del administrador: reduce el mensaje a ${MAX_INPUT_TOKENS_CHATGPT} caracteres, no estoy hecho de oro`);
 			return;
 		} 
-		message.reply(await makeRequest(message.content.replace(client.user.id, "")));
+		message.reply(await makeRequest(message.content.replace(client.user.id, ""), MAX_INPUT_TOKENS_CHATGPT));
 	} else if (message.content.length >= 50 ) {
 		makeFun(message);
 	}

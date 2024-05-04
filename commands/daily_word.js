@@ -14,16 +14,13 @@ module.exports = {
       .setRequired(true)
       .addChoices(
         { name: "English", value: "en" },
-        { name: "Spanish", value: "es" },
-        { name: "Catalan", value: "cat" },
-        { name: "Portuguese (Brazil)", value: "pt" },
-        { name: "Japanese", value: "ja" },
-        { name: "German", value: "de" },
-        { name: "Basque", value: "eu" }
+        { name: "Spanish", value: "es" }
       )
     ),
   async execute(interaction) {
     await interaction.reply({ content: "Fetching data... Please wait!" });
+
+    const lang = interaction.options.getString("lang");
 
     const browser = await puppeteer.launch({
       args: ["--no-sandbox"],
@@ -35,26 +32,29 @@ module.exports = {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
     );
 
-    let url = `https://www.jw.org/en/library/books/bible-glossary/`;
+    let url = "";
+
+    switch (lang) {
+      case "en":
+        url = "https://www.jw.org/en/library/books/bible-glossary/";
+      break;
+      case "es":
+        url = "https://www.jw.org/es/biblioteca/libros/glosario-biblia/"
+      break;
+      default:
+        url = "https://www.jw.org/en/library/books/bible-glossary/";
+      break;
+    }
 
     // Read existing JSON file if it exists, otherwise create an empty glossary object
     let glossary = {};
-    const filePath = "./data/daily_word_data.json"
+    const filePath = `./data/daily_word/daily_word_${lang}.json`
     if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath);
         glossary = JSON.parse(fileContent);
     }
 
-    // Function to get today's date in YYYY-MM-DD format
-    function getTodayDate() {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    }
-
-    const todayDate = getTodayDate();
+    const todayDate = new Date().toISOString().split("T")[0];
 
     // Check if the date variable in the file is less than today's date
     if (glossary.date == undefined || glossary.date < todayDate) {

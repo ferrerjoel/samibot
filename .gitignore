@@ -2,4 +2,4 @@ node_modules
 config.json
 .env
 test.js
-data/daily_word_data.json
+data/daily_word/*.json

@@ -8,7 +8,7 @@ const openaiInstance = new openai({
 async function makeRequestLogic(userMessage, max_tokens) {
   try {
     const response = await openaiInstance.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [     {
         "role": "system",
         "content": "You are named Samuee, you are from seville, respond in Spanish, tipical andalusian words, don't swear."

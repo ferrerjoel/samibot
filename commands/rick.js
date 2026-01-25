@@ -33,6 +33,5 @@ module.exports = {
 		
 		connection.subscribe(player);
 		player.play(resource);
-		
 	},
 };

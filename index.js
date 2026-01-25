@@ -32,7 +32,7 @@ for (const file of commandFiles) {
 }
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
-	client.user.setActivity('Hollow Knight: Silksong');
+	client.user.setActivity('Hollow Knight: Silksong - Sea of Sorrow');
 	console.log('Samibot has deployed >:)');
 });
 
